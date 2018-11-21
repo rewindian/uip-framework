@@ -1,0 +1,83 @@
+package com.ian.uip.sys.controller;
+
+import com.baomidou.mybatisplus.mapper.EntityWrapper;
+import com.ian.uip.core.annotation.AuthIgnore;
+import com.ian.uip.core.annotation.LoginUser;
+import com.ian.uip.core.constant.AuthConstants;
+import com.ian.uip.core.exception.CustomException;
+import com.ian.uip.core.model.ResultBean;
+import com.ian.uip.core.model.UserLoginInfo;
+import com.ian.uip.core.redis.RedisOperator;
+import com.ian.uip.core.util.EncryptUtils;
+import com.ian.uip.core.util.TokenUtils;
+import com.ian.uip.sys.entity.SysUser;
+import com.ian.uip.sys.service.SysUserService;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.web.bind.annotation.*;
+
+import java.io.IOException;
+
+/**
+ * 登录相关
+ *
+ * @author theodo
+ * @email 36780272@qq.com
+ * @date 2016年11月10日 下午1:15:31
+ */
+@RestController
+@Slf4j
+public class SysLoginController {
+
+    @Value("${uip.token.expire-time}")
+    private Long tokenExpireTime;
+
+    @Autowired
+    private SysUserService sysUserService;
+
+    @Autowired
+    private RedisOperator redisOperator;
+
+    /**
+     * 登录
+     */
+    @RequestMapping(value = "/sys/login", method = RequestMethod.POST)
+    @AuthIgnore
+    public ResultBean login(@RequestBody SysUser sysUser) {
+
+        //用户信息
+        SysUser user = sysUserService.selectOne(new EntityWrapper<SysUser>().eq("username", sysUser.getUsername()));
+
+        //账号不存在、密码错误
+        if (user == null || !user.getPassword().equalsIgnoreCase(EncryptUtils.md5(sysUser.getPassword() + user.getSalt()))) {
+            return new ResultBean(new CustomException("账号或密码不正确"));
+        }
+
+        //账号锁定
+        if (user.getStatus() == 0) {
+            return new ResultBean(new CustomException("账号已被锁定,请联系管理员"));
+        }
+        String token = TokenUtils.generateToken();
+        UserLoginInfo userLoginInfo = new UserLoginInfo();
+        userLoginInfo.setId(user.getId());
+        userLoginInfo.setUsername(user.getUsername());
+        userLoginInfo.setDeptId(user.getDeptId());
+        userLoginInfo.setDeptName(user.getDeptName());
+        userLoginInfo.setEmail(user.getEmail());
+        userLoginInfo.setMobile(user.getMobile());
+        userLoginInfo.setToken(token);
+        //加入资源
+        //存入redis
+        redisOperator.setDataWithExpire(AuthConstants.TOKEN_CACHE_PREFIX + token, userLoginInfo, tokenExpireTime);
+        return new ResultBean(userLoginInfo);
+    }
+
+    @GetMapping("/sys/test")
+    public ResultBean test(@LoginUser UserLoginInfo userLoginInfo) {
+        log.debug(userLoginInfo.getId());
+        return new ResultBean(userLoginInfo);
+    }
+
+
+}

@@ -1,0 +1,18 @@
+spring:
+  datasource:
+    hikari:
+      maximum-pool-size: 20
+#    type: com.zaxxer.hikari.HikariDataSource
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/uip?allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8
+    username: root
+    password:
+
+uip:
+  token:
+    #Token过期时间(单位秒)
+    expire-time: 1800
+    #是否在有请求访问时自动延长Token过期时间(并发量大时，建议关闭)
+    expire-time-expand: true
+    #开启自动延长Token过期时间后启用该配置，当过期时间小于该值才会自动延长，延长到expire-time设定时长
+    expire-expand-threshold: 600

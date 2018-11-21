@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ian.uip.sys.dao.SysParamMapper">
+
+    <select id="listQuerySysParam" resultType="com.ian.uip.sys.entity.SysParam">
+        <![CDATA[
+          SELECT T.ID,
+                 T.PARAM_CODE,
+                 T.PARAM_DESC,
+                 T.VALUE,
+                 T.VALUE_HIS,
+                 T.UPDATE_BY,
+                 T.UPDATE_DATE,
+                 T.HIDE
+            FROM q_sys_param T
+           WHERE 1 = 1
+        ]]>
+        <if test="paramCode != null and paramCode != ''">
+             AND T.PARAM_CODE like CONCAT('%', CONCAT(#{paramCode, jdbcType=VARCHAR}, '%'))
+        </if>
+        <if test="paramDesc != null and paramDesc != ''">
+             AND T.PARAM_DESC like CONCAT('%', CONCAT(#{paramDesc, jdbcType=VARCHAR}, '%'))
+        </if>
+    </select>
+    
+    <update id="updateSysParamValueById">
+        <![CDATA[
+            UPDATE q_sys_param T
+               SET VALUE = #{value, jdbcType=VARCHAR},
+                   UPDATE_BY = #{updateBy, jdbcType=VARCHAR},
+                   UPDATE_DATE = #{updateDate, jdbcType=TIMESTAMP},
+                   VALUE_HIS = VALUE
+             WHERE T.ID = #{id, jdbcType=VARCHAR}
+        ]]>
+    </update>
+    
+    <update id="revertSysParamValueById">
+        <![CDATA[
+            UPDATE q_sys_param T
+               SET VALUE = VALUE_HIS,
+                   UPDATE_BY = #{updateBy, jdbcType=VARCHAR},
+                   UPDATE_DATE = #{updateDate, jdbcType=TIMESTAMP},
+                   VALUE_HIS = VALUE
+             WHERE T.ID = #{id, jdbcType=VARCHAR}
+        ]]>
+    </update>
+    
+    <select id="queryAllSysParam" resultType="com.ian.uip.sys.entity.SysParam">
+        <![CDATA[
+            SELECT T.PARAM_CODE, T.VALUE FROM q_sys_param T
+        ]]>
+    </select>
+
+    <select id="queryValueByCode" resultType="java.lang.String">
+        SELECT T.VALUE FROM q_sys_param T WHERE T.PARAM_CODE = #{paramCode}
+    </select>
+</mapper>
