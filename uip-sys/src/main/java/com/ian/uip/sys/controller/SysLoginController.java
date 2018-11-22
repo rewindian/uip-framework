@@ -2,7 +2,8 @@ package com.ian.uip.sys.controller;
 
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.ian.uip.core.annotation.AuthIgnore;
-import com.ian.uip.core.annotation.LoginUser;
+import com.ian.uip.core.annotation.SysLogIgnore;
+import com.ian.uip.core.annotation.UserLogin;
 import com.ian.uip.core.constant.AuthConstants;
 import com.ian.uip.core.exception.CustomException;
 import com.ian.uip.core.model.ResultBean;
@@ -17,14 +18,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.IOException;
+import java.util.Map;
+
 
 /**
  * 登录相关
- *
- * @author theodo
- * @email 36780272@qq.com
- * @date 2016年11月10日 下午1:15:31
  */
 @RestController
 @Slf4j
@@ -74,9 +72,21 @@ public class SysLoginController {
     }
 
     @GetMapping("/sys/test")
-    public ResultBean test(@LoginUser UserLoginInfo userLoginInfo) {
+    public ResultBean test(@UserLogin UserLoginInfo userLoginInfo) {
         log.debug(userLoginInfo.getId());
         return new ResultBean(userLoginInfo);
+    }
+
+    @GetMapping("/sys/testLog")
+    @SysLogIgnore
+    public ResultBean testLog(@RequestParam("id") String id) {
+        log.debug(id);
+        return new ResultBean(id);
+    }
+
+    @PostMapping("/sys/testPost")
+    public ResultBean testPost(@RequestBody Map<String, Object> map) {
+        return new ResultBean(map);
     }
 
 

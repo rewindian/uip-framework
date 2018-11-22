@@ -17,10 +17,19 @@ public class SysPermission extends Model<SysPermission> {
 
     private String id;
 
-    private String name;
+    /**
+     * 名称
+     */
+    private String permissionName;
 
+    /**
+     * 上级id
+     */
     private String parentId;
 
+    /**
+     * 权限
+     */
     private String permission;
 
     /**
@@ -32,6 +41,16 @@ public class SysPermission extends Model<SysPermission> {
      * 资源ID
      */
     private String resourceId;
+
+    /**
+     * 描述
+     */
+    private String description;
+
+    /**
+     * 排序
+     */
+    private Long sortOrder;
 
     @Override
     protected Serializable pkVal() {

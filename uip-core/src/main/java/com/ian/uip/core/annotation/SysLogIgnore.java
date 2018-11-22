@@ -1,0 +1,10 @@
+package com.ian.uip.core.annotation;
+
+import java.lang.annotation.*;
+
+@Target({ElementType.METHOD})
+@Documented
+@Retention(RetentionPolicy.RUNTIME)
+@Inherited
+public @interface SysLogIgnore {
+}

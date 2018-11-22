@@ -1,6 +1,6 @@
 package com.ian.uip.core.resolver;
 
-import com.ian.uip.core.annotation.LoginUser;
+import com.ian.uip.core.annotation.UserLogin;
 import com.ian.uip.core.constant.AuthConstants;
 import com.ian.uip.core.model.UserLoginInfo;
 import com.ian.uip.core.redis.RedisOperator;
@@ -24,7 +24,7 @@ public class LoginUserHandlerMethodArgumentResolver implements HandlerMethodArgu
 
     @Override
     public boolean supportsParameter(MethodParameter parameter) {
-        return parameter.getParameterType().isAssignableFrom(UserLoginInfo.class) && parameter.hasParameterAnnotation(LoginUser.class);
+        return parameter.getParameterType().isAssignableFrom(UserLoginInfo.class) && parameter.hasParameterAnnotation(UserLogin.class);
     }
 
     @Override

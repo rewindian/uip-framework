@@ -63,4 +63,28 @@ public class RedisOperator {
     public void setExpire(Serializable key, long seconds) {
         redisTemplate.expire(key, seconds, TimeUnit.SECONDS);
     }
+
+    /**
+     * 向List推数据
+     *
+     * @param key
+     * @param value
+     */
+    public void lpush(Serializable key, Serializable value) {
+        redisTemplate.opsForList().leftPush(key, value);
+    }
+
+    /**
+     * 从List阻塞取数据
+     *
+     * @param key
+     * @return
+     */
+    public Object brpop(Serializable key) {
+        return redisTemplate.opsForList().rightPop(key);
+    }
+
+    public Object brpop(Serializable key, long seconds) {
+        return redisTemplate.opsForList().rightPop(key, seconds, TimeUnit.SECONDS);
+    }
 }
