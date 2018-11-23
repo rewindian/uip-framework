@@ -71,6 +71,19 @@ public class SysLoginController {
         return new ResultBean(userLoginInfo);
     }
 
+    /**
+     * 退出登录
+     *
+     * @param userLoginInfo
+     * @return
+     */
+    @PostMapping("/sys/logout")
+    public ResultBean logout(@UserLogin UserLoginInfo userLoginInfo) {
+        String token = userLoginInfo.getToken();
+        redisOperator.deleteData(AuthConstants.TOKEN_CACHE_PREFIX + token);
+        return new ResultBean();
+    }
+
     @GetMapping("/sys/test")
     public ResultBean test(@UserLogin UserLoginInfo userLoginInfo) {
         log.debug(userLoginInfo.getId());

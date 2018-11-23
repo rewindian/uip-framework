@@ -54,10 +54,11 @@ mybatis-plus:
     cache-enabled: false
     call-setters-on-nulls: true
 
-#热部署配置
-devtools:
-  livereload:
-    enabled: true
-  restart:
-    enabled: true
-    additional-exclude: views/**
+uip:
+  token:
+    #Token过期时间(单位秒)
+    expire-time: 1800
+    #是否在有请求访问时自动延长Token过期时间(并发量大时，建议关闭)
+    expire-time-expand: true
+    #开启自动延长Token过期时间后启用该配置，当过期时间小于该值才会自动延长，延长到expire-time设定时长
+    expire-expand-threshold: 600

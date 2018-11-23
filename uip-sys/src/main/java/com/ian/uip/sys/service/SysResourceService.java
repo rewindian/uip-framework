@@ -1,6 +1,6 @@
 package com.ian.uip.sys.service;
 
-import com.ian.uip.sys.entity.SysPermission;
+import com.ian.uip.sys.entity.SysResource;
 import com.baomidou.mybatisplus.service.IService;
 
 /**
@@ -9,8 +9,8 @@ import com.baomidou.mybatisplus.service.IService;
  * </p>
  *
  * @author Ian
- * @since 2018-11-22
+ * @since 2018-11-23
  */
-public interface SysPermissionService extends IService<SysPermission> {
+public interface SysResourceService extends IService<SysResource> {
 
 }

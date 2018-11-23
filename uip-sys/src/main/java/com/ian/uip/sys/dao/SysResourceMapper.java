@@ -1,6 +1,6 @@
 package com.ian.uip.sys.dao;
 
-import com.ian.uip.sys.entity.SysPermission;
+import com.ian.uip.sys.entity.SysResource;
 import com.baomidou.mybatisplus.mapper.BaseMapper;
 
 /**
@@ -9,8 +9,8 @@ import com.baomidou.mybatisplus.mapper.BaseMapper;
  * </p>
  *
  * @author Ian
- * @since 2018-11-22
+ * @since 2018-11-23
  */
-public interface SysPermissionMapper extends BaseMapper<SysPermission> {
+public interface SysResourceMapper extends BaseMapper<SysResource> {
 
 }

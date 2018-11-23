@@ -7,14 +7,15 @@ import org.springframework.web.bind.annotation.RestController;
 
 /**
  * <p>
- *  前端控制器
+ * 子系统表 前端控制器
  * </p>
  *
  * @author Ian
- * @since 2018-11-22
+ * @since 2018-11-23
  */
 @RestController
-@RequestMapping("/sysPermission")
-public class SysPermissionController {
+@RequestMapping("/sysSubsystem")
+public class SysSubsystemController {
 
 }
+

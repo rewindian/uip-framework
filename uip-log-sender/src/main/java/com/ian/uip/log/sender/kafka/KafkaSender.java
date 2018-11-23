@@ -33,6 +33,7 @@ public class KafkaSender<T> {
             @Override
             public void onFailure(Throwable throwable) {
                 logger.debug("Produce: The message failed to be sent:" + throwable.getMessage());
+                logger.error(throwable.getMessage(), throwable);
             }
 
             @Override
