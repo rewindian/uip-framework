@@ -12,7 +12,8 @@
         <module>uip-core</module>
         <module>uip-import</module>
         <module>uip-sys</module>
-        <module>uip-monitor</module>
+        <module>uip-log-sender</module>
+        <module>uip-log-receiver</module>
     </modules>
     <name>universal integration platform</name>
     <description>通用集成平台</description>
@@ -36,7 +37,6 @@
         <mybatis-plus-boot-starter.version>2.3</mybatis-plus-boot-starter.version>
         <fastjson.version>1.2.47</fastjson.version>
         <mysql.driver.version>5.1.39</mysql.driver.version>
-        <freemarker.version>2.3.23</freemarker.version>
         <poi.version>3.17</poi.version>
         <commons.lang3.version>3.7</commons.lang3.version>
         <commons.codec.version>1.11</commons.codec.version>
@@ -77,13 +77,6 @@
                 <version>${fastjson.version}</version>
             </dependency>
             <!-- fastjson end -->
-            <!-- freemarker start -->
-            <dependency>
-                <groupId>org.freemarker</groupId>
-                <artifactId>freemarker</artifactId>
-                <version>${freemarker.version}</version>
-            </dependency>
-            <!-- freemarker end -->
             <!-- lombok start -->
             <dependency>
                 <groupId>org.projectlombok</groupId>
