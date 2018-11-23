@@ -9,19 +9,13 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>uip-sys</artifactId>
-    <description>管理系统模块</description>
+    <artifactId>uip-log-receiver</artifactId>
 
     <dependencies>
         <dependency>
             <groupId>com.ian</groupId>
             <artifactId>uip-core</artifactId>
             <version>1.0.0-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-test</artifactId>
-            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>com.baomidou</groupId>
@@ -33,12 +27,10 @@
                 </exclusion>
             </exclusions>
         </dependency>
-        <!-- fastjson start -->
         <dependency>
-            <groupId>com.alibaba</groupId>
-            <artifactId>fastjson</artifactId>
+            <groupId>org.springframework.kafka</groupId>
+            <artifactId>spring-kafka</artifactId>
         </dependency>
-        <!-- fastjson end -->
         <!-- lombok start -->
         <dependency>
             <groupId>org.projectlombok</groupId>
@@ -46,22 +38,6 @@
             <scope>provided</scope>
         </dependency>
         <!-- lombok end -->
-        <!-- jdbc driver start -->
-        <dependency>
-            <groupId>mysql</groupId>
-            <artifactId>mysql-connector-java</artifactId>
-            <scope>runtime</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.ian</groupId>
-            <artifactId>uip-log-receiver</artifactId>
-            <version>1.0.0-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>com.ian</groupId>
-            <artifactId>uip-log-sender</artifactId>
-            <version>1.0.0-SNAPSHOT</version>
-        </dependency>
     </dependencies>
 
     <build>
@@ -84,4 +60,5 @@
         </plugins>
         <finalName>${project.artifactId}</finalName>
     </build>
+
 </project>

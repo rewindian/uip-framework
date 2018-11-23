@@ -56,6 +56,13 @@
     <logger name="com.ibatis.common.jdbc.SimpleDataSource" level="DEBUG"/>
     <logger name="com.ibatis.common.jdbc.ScriptRunner" level="DEBUG"/>
     <logger name="com.ibatis.sqlmap.engine.impl.SqlMapClientDelegate" level="DEBUG"/>
+    <logger name="org.apache.kafka.clients.consumer.internals.ConsumerCoordinator" level="info"/>
+    <logger name="org.apache.kafka.clients.consumer.internals.Fetcher" level="info"/>
+    <logger name="org.apache.kafka.clients.Metadata" level="info"/>
+    <logger name="org.apache.kafka.clients.consumer.internals.AbstractCoordinator" level="info"/>
+    <logger name="org.springframework.kafka.listener.KafkaMessageListenerContainer" level="info"/>
+    <logger name="org.apache.kafka.clients.FetchSessionHandler" level="info"/>
+    <logger name="org.apache.kafka.clients.NetworkClient" level="info"/>
 
     <!-- 根据application.yml中设定的环境不同采用不同的日志策略 -->
     <springProfile name="prod">
