@@ -22,7 +22,7 @@ import java.util.concurrent.locks.Lock;
 @Slf4j
 public class KafkaReceiver {
 
-    private List<SysLog> list = new ArrayList<>();
+    private volatile List<SysLog> list = new ArrayList<>();
 
     private static final int MAX_BATCH_SIZE = 100;
 
@@ -38,7 +38,7 @@ public class KafkaReceiver {
             //获取消息
             Object message = kafkaMessage.get();
 
-//            log.debug("Receive： +++++++++++++++ Topic:" + topic);
+            log.debug("Receive： +++++++++++++++ Topic:" + topic);
 //            log.debug("Receive： +++++++++++++++ Record:" + record);
 //            log.debug("Receive： +++++++++++++++ Message:" + message);
             SysLog sysLog = JSON.parseObject(message.toString(), new TypeReference<SysLog>() {
@@ -61,11 +61,8 @@ public class KafkaReceiver {
         }
     }
 
-    private synchronized void addLog(SysLog sysLog) {
-        list.add(sysLog);
-    }
-
     public synchronized void doBatchAdd() {
+        log.debug("------------执行批量入库------------");
         try {
             while (!SysLogQueue.getMyQueue().isEmpty() && list.size() <= MAX_BATCH_SIZE) {
                 list.add(SysLogQueue.getMyQueue().poll());
@@ -76,6 +73,5 @@ public class KafkaReceiver {
         } finally {
             list.clear();
         }
-
     }
 }
