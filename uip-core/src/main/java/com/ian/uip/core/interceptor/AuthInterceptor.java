@@ -1,6 +1,7 @@
 package com.ian.uip.core.interceptor;
 
 import com.ian.uip.core.annotation.AuthIgnore;
+import com.ian.uip.core.config.TokenConfig;
 import com.ian.uip.core.constant.AuthConstants;
 import com.ian.uip.core.exception.AuthException;
 import com.ian.uip.core.exception.CustomException;
@@ -20,17 +21,11 @@ import javax.servlet.http.HttpServletResponse;
 @Slf4j
 public class AuthInterceptor extends HandlerInterceptorAdapter {
 
-    @Value("${uip.token.expire-time}")
-    private Long tokenExpireTime;
-
-    @Value("${uip.token.expire-time-expand}")
-    private Boolean tokenExpireTimeExpand;
-
-    @Value("${uip.token.expire-expand-threshold}")
-    private Long tokenExpireExpandThreshold;
-
     @Autowired
     private RedisOperator redisOperator;
+
+    @Autowired
+    private TokenConfig tokenConfig;
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
@@ -67,12 +62,12 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
         //查询token信息
         String tokenKey = AuthConstants.TOKEN_CACHE_PREFIX + token;
         if (redisOperator.hasKey(tokenKey)) {
-            if (null != tokenExpireTimeExpand && tokenExpireTimeExpand) {
+            if (null != tokenConfig.getExpireTimeExpand() && tokenConfig.getExpireTimeExpand()) {
                 //包含token
                 long expireTime = redisOperator.getExpire(tokenKey); //秒
                 log.debug("{}的过期时间为{}秒！", tokenKey, expireTime);
-                if (expireTime < tokenExpireExpandThreshold) { //延长过期时间
-                    redisOperator.setExpire(tokenKey, tokenExpireTime);
+                if (expireTime < tokenConfig.getExpireExpandThreshold()) { //延长过期时间
+                    redisOperator.setExpire(tokenKey, tokenConfig.getExpireTime());
                     log.debug("{}的过期时间已更新为{}秒！", tokenKey, redisOperator.getExpire(tokenKey));
                 }
             }

@@ -55,10 +55,8 @@ mybatis-plus:
     call-setters-on-nulls: true
 
 uip:
-  token:
-    #Token过期时间(单位秒)
-    expire-time: 1800
-    #是否在有请求访问时自动延长Token过期时间(并发量大时，建议关闭)
-    expire-time-expand: true
-    #开启自动延长Token过期时间后启用该配置，当过期时间小于该值才会自动延长，延长到expire-time设定时长
-    expire-expand-threshold: 600
+  sys-log:
+    #消费者接收主题(多个逗号分隔)
+    receiver-topics: uip.sys.log
+    #KafkaListener注解的id
+    listener-id: uip
