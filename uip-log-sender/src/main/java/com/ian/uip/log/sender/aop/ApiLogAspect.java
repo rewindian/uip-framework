@@ -8,6 +8,7 @@ import com.ian.uip.core.model.ResultBean;
 import com.ian.uip.core.model.SysLog;
 import com.ian.uip.core.model.UserLoginInfo;
 import com.ian.uip.core.redis.RedisOperator;
+import com.ian.uip.core.util.ExceptionHandleUtils;
 import com.ian.uip.log.sender.kafka.KafkaSender;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -167,7 +168,7 @@ public class ApiLogAspect {
                 return o;
             } catch (Throwable e) {
                 LOGGER.error(e.getMessage(), e);
-                return new ResultBean(e);
+                return ExceptionHandleUtils.handle(e);
             } finally {
                 long endTime = System.currentTimeMillis();
                 long consumeTime = endTime - beginTime;

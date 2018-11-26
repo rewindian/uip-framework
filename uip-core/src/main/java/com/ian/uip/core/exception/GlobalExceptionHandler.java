@@ -8,7 +8,14 @@ import org.springframework.dao.DuplicateKeyException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-@RestControllerAdvice
+import javax.validation.ConstraintViolation;
+import javax.validation.ConstraintViolationException;
+import java.util.Set;
+
+/**
+ * 与SysLogAOP冲突 故放弃使用 可以在项目自行继承该类实现全局异常处理
+ */
+//@RestControllerAdvice
 @Slf4j
 public class GlobalExceptionHandler {
 
@@ -43,9 +50,26 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(AuthException.class)
+    @SysLogIgnore
     public ResultBean handleAuthorizationException(AuthException e) {
         log.error(e.getMessage(), e);
         return new ResultBean(ResultBean.NEED_LOGIN, "token缺失或过期，请重新登录");
+    }
+
+    @ExceptionHandler(ConstraintViolationException.class)
+    @SysLogIgnore
+    public ResultBean handleConstraintViolationException(ConstraintViolationException e) {
+        log.error(e.getMessage(), e);
+        Set<ConstraintViolation<?>> violations = e.getConstraintViolations();
+        if (!violations.isEmpty()) {
+            StringBuilder msg = new StringBuilder();
+            for (ConstraintViolation<?> constraint : violations) {
+                msg.append(constraint.getMessage()).append("<br>");
+            }
+            return new ResultBean(ResultBean.FAIL, msg.toString());
+        } else {
+            return new ResultBean(e);
+        }
     }
 
     @ExceptionHandler(Exception.class)

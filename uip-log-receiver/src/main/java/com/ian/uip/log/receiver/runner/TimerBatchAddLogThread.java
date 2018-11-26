@@ -16,9 +16,10 @@ public class TimerBatchAddLogThread extends BatchAddLogThread {
 
     @Override
     public void run() {
+        int interval = null != sysLogConfig.getInterval() ? sysLogConfig.getInterval() : ADD_INTERVAL_SECONDS;
         while (true) {
             try {
-                TimeUnit.SECONDS.sleep(ADD_INTERVAL_SECONDS);
+                TimeUnit.SECONDS.sleep(interval);
                 log.debug("--------------计时结束----------------");
                 if (SysLogQueue.getMyQueue().size() > 0) {
                     kafkaReceiver.doBatchAdd();

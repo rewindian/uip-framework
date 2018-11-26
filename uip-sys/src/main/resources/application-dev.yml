@@ -2,7 +2,6 @@ spring:
   datasource:
     hikari:
       maximum-pool-size: 20
-#    type: com.zaxxer.hikari.HikariDataSource
     driver-class-name: com.mysql.jdbc.Driver
     url: jdbc:mysql://localhost:3306/uip?allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8
     username: root
@@ -32,4 +31,23 @@ spring:
     # 指定listener 容器中的线程数，用于提高并发量
     listener:
       concurrency: 3
+
+########################## 自定义配置 ######################
+#uip:
+#  #日志监控配置
+#  sys-log:
+#      #日志入库间隔(秒)
+#      interval: 10
+#      #队列积累到该值 触发入库
+#      max-size: 30
+#      #批量插入单次数量
+#      mybatis-batch-size: 50
+#      #生产者发送主题
+#      sender-topic: uip.sys.log
+#      #消费者接收主题(多个逗号分隔)
+#      receiver-topics: uip.sys.log
+#      #KafkaListener注解的id
+#      listener-id: uip
+
+
 

@@ -1,6 +1,7 @@
 package com.ian.uip.log.sender.kafka;
 
 import com.alibaba.fastjson.JSON;
+import com.ian.uip.core.config.SysLogConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,9 @@ public class KafkaSender<T> {
     @Autowired
     private KafkaTemplate<String, Object> kafkaTemplate;
 
+    @Autowired
+    private SysLogConfig sysLogConfig;
+
     /**
      * kafka 发送消息
      *
@@ -26,9 +30,9 @@ public class KafkaSender<T> {
     public void send(T obj) {
         String jsonObj = JSON.toJSONString(obj);
         logger.debug("------------ message = {}", jsonObj);
-
+        String topic = null != sysLogConfig.getSenderTopic() ? sysLogConfig.getSenderTopic() : "uip.sys.log";
         //发送消息
-        ListenableFuture<SendResult<String, Object>> future = kafkaTemplate.send("uip.api.log", jsonObj);
+        ListenableFuture<SendResult<String, Object>> future = kafkaTemplate.send(topic, jsonObj);
         future.addCallback(new ListenableFutureCallback<SendResult<String, Object>>() {
             @Override
             public void onFailure(Throwable throwable) {

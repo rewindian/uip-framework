@@ -3,8 +3,12 @@ package com.ian.uip.sys.entity;
 import com.baomidou.mybatisplus.activerecord.Model;
 import com.baomidou.mybatisplus.annotations.TableField;
 import com.baomidou.mybatisplus.annotations.TableName;
+import com.ian.uip.core.validator.group.AddGroup;
+import com.ian.uip.core.validator.group.UpdateGroup;
 import lombok.Data;
 
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
@@ -24,10 +28,12 @@ public class SysUser extends Model<SysUser> {
     /**
      * 用户名
      */
+    @NotBlank(message="用户名不能为空", groups = {AddGroup.class, UpdateGroup.class})
     private String username;
     /**
      * 密码
      */
+    @NotBlank(message="密码不能为空", groups = AddGroup.class)
     private String password;
     /**
      * 盐
@@ -36,6 +42,7 @@ public class SysUser extends Model<SysUser> {
     /**
      * 邮箱
      */
+    @Email(message="邮箱格式不正确", groups = {AddGroup.class, UpdateGroup.class})
     private String email;
     /**
      * 手机号

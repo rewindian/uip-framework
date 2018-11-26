@@ -13,8 +13,9 @@ public class SizerBatchAddLogThread extends BatchAddLogThread {
 
     @Override
     public void run() {
+        int maxSize = null != sysLogConfig.getMaxSize() ? sysLogConfig.getMaxSize() : MAX_BATCH_SIZE;
         while (true) {
-            if (SysLogQueue.getMyQueue().size() >= MAX_BATCH_SIZE) {
+            if (SysLogQueue.getMyQueue().size() >= maxSize) {
                 kafkaReceiver.doBatchAdd();
             }
             log.debug("----------------执行阻塞--------------");
