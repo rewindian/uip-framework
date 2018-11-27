@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.annotations.TableName;
 import com.ian.uip.core.validator.group.AddGroup;
 import com.ian.uip.core.validator.group.UpdateGroup;
 import lombok.Data;
+import lombok.experimental.Accessors;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
@@ -20,20 +21,21 @@ import java.util.List;
  */
 @Data
 @TableName("sys_user")
+@Accessors(chain = true)
 public class SysUser extends Model<SysUser> {
 
     private static final long serialVersionUID = 1L;
 
+    @NotBlank(message = "修改时id不能为空", groups = UpdateGroup.class)
     private String id;
     /**
      * 用户名
      */
-    @NotBlank(message="用户名不能为空", groups = {AddGroup.class, UpdateGroup.class})
+    @NotBlank(message = "用户名不能为空", groups = {AddGroup.class, UpdateGroup.class})
     private String username;
     /**
      * 密码
      */
-    @NotBlank(message="密码不能为空", groups = AddGroup.class)
     private String password;
     /**
      * 盐
@@ -42,7 +44,7 @@ public class SysUser extends Model<SysUser> {
     /**
      * 邮箱
      */
-    @Email(message="邮箱格式不正确", groups = {AddGroup.class, UpdateGroup.class})
+    @Email(message = "邮箱格式不正确", groups = {AddGroup.class, UpdateGroup.class})
     private String email;
     /**
      * 手机号
@@ -56,7 +58,7 @@ public class SysUser extends Model<SysUser> {
      * 部门ID
      */
     @TableField("dept_id")
-    private Long deptId;
+    private String deptId;
 
     /**
      * 部门名称
@@ -68,7 +70,7 @@ public class SysUser extends Model<SysUser> {
      * 角色ID列表
      */
     @TableField(exist = false)
-    private List<Long> roleIdList;
+    private List<String> roleIdList;
 
     /**
      * 创建时间
@@ -80,7 +82,13 @@ public class SysUser extends Model<SysUser> {
      * 创建者ID
      */
     @TableField(exist = false)
-    private Long createUserId;
+    private String createUserId;
+
+    /**
+     * 修改密码时新密码
+     */
+    @TableField(exist = false)
+    private String newPassword;
 
 
     @Override

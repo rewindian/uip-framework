@@ -11,6 +11,7 @@ import com.ian.uip.sys.entity.SysUser;
 public interface SysUserService extends IService<SysUser> {
 
 
-    void save(SysUser user);
+    boolean save(SysUser sysUser);
 
+    boolean updatePassword(SysUser sysUser);
 }

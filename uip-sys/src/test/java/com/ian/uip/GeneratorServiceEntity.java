@@ -52,7 +52,7 @@ public class GeneratorServiceEntity {
     /**
      * 生成文件所在包名
      */
-    private static final String PACKAGE_NAME = "com.ian.uip.log.receiver";
+    private static final String PACKAGE_NAME = "com.ian.uip.sys";
 
     /**
      * WEB层超类
@@ -67,7 +67,7 @@ public class GeneratorServiceEntity {
     /**
      * 需要生成的表名称
      */
-    private static final String[] TABLE_NAMES = {"sys_log"};
+    private static final String[] TABLE_NAMES = {"sys_subsystem", "sys_resource"};
 
     @Test
     public void generateCode() {
@@ -103,7 +103,6 @@ public class GeneratorServiceEntity {
             config.setServiceName("%sService");
         }
         new AutoGenerator()
-                .setTemplateEngine(new FreemarkerTemplateEngine())
                 .setGlobalConfig(config)
                 .setDataSource(dataSourceConfig)
                 .setStrategy(strategyConfig)

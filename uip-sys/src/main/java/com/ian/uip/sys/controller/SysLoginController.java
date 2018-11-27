@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.ian.uip.core.annotation.AuthIgnore;
 import com.ian.uip.core.annotation.SysLogIgnore;
 import com.ian.uip.core.annotation.UserLogin;
+import com.ian.uip.core.config.TokenConfig;
 import com.ian.uip.core.constant.AuthConstants;
 import com.ian.uip.core.exception.CustomException;
 import com.ian.uip.core.model.ResultBean;
@@ -13,6 +14,7 @@ import com.ian.uip.core.util.EncryptUtils;
 import com.ian.uip.core.util.TokenUtils;
 import com.ian.uip.sys.entity.SysUser;
 import com.ian.uip.sys.service.SysUserService;
+import com.ian.uip.sys.util.PasswordUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -28,8 +30,8 @@ import java.util.Map;
 @Slf4j
 public class SysLoginController {
 
-    @Value("${uip.token.expire-time}")
-    private Long tokenExpireTime;
+    @Autowired
+    private TokenConfig tokenConfig;
 
     @Autowired
     private SysUserService sysUserService;
@@ -48,7 +50,7 @@ public class SysLoginController {
         SysUser user = sysUserService.selectOne(new EntityWrapper<SysUser>().eq("username", sysUser.getUsername()));
 
         //账号不存在、密码错误
-        if (user == null || !user.getPassword().equalsIgnoreCase(EncryptUtils.md5(sysUser.getPassword() + user.getSalt()))) {
+        if (user == null || !PasswordUtil.validatePassword(sysUser.getPassword(), user.getPassword(), user.getSalt())) {
             return new ResultBean(new CustomException("账号或密码不正确"));
         }
 
@@ -67,7 +69,7 @@ public class SysLoginController {
         userLoginInfo.setToken(token);
         //加入资源
         //存入redis
-        redisOperator.setDataWithExpire(AuthConstants.TOKEN_CACHE_PREFIX + token, userLoginInfo, tokenExpireTime);
+        redisOperator.setDataWithExpire(AuthConstants.TOKEN_CACHE_PREFIX + token, userLoginInfo, tokenConfig.getExpireTime());
         return new ResultBean(userLoginInfo);
     }
 

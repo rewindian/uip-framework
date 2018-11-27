@@ -1,9 +1,43 @@
 package com.ian.uip.sys.controller;
 
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.ian.uip.core.model.ResultBean;
+import com.ian.uip.core.validator.Assert;
+import com.ian.uip.core.validator.ValidatorUtils;
+import com.ian.uip.core.validator.group.AddGroup;
+import com.ian.uip.core.validator.group.UpdateGroup;
+import com.ian.uip.sys.entity.SysUser;
+import com.ian.uip.sys.model.BaseController;
+import com.ian.uip.sys.service.SysUserService;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
+
 
 @RestController
 @RequestMapping("/sys/user")
-public class SysUserController {
+@Validated
+public class SysUserController extends BaseController<SysUserService, SysUser> {
+
+    @Override
+    @PostMapping
+    public ResultBean insert(@RequestBody SysUser sysUser) {
+        ValidatorUtils.validateEntity(sysUser, AddGroup.class);
+        return new ResultBean(baseService.save(sysUser));
+    }
+
+    @Override
+    @PutMapping
+    public ResultBean update(@RequestBody SysUser sysUser) {
+        ValidatorUtils.validateEntity(sysUser, UpdateGroup.class);
+        sysUser.setPassword(null);
+        sysUser.setSalt(null);
+        return new ResultBean(baseService.updateById(sysUser));
+    }
+
+    @PutMapping("/updatePassword")
+    public ResultBean updatePassword(@RequestBody SysUser sysUser) {
+        Assert.isBlank(sysUser.getId(), "id不能为空");
+        Assert.isBlank(sysUser.getPassword(), "密码不能为空");
+        Assert.isBlank(sysUser.getNewPassword(), "新密码不能为空");
+        return new ResultBean(baseService.updatePassword(sysUser));
+    }
 }

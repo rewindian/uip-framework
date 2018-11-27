@@ -8,6 +8,8 @@ import java.io.Serializable;
 @Data
 public class SysRole extends Model<SysRole> {
 
+    private static final long serialVersionUID = 1L;
+
     private String id;
     /**
      * 角色名称

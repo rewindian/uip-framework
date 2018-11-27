@@ -168,7 +168,10 @@ public class ApiLogAspect {
                 return o;
             } catch (Throwable e) {
                 LOGGER.error(e.getMessage(), e);
-                return ExceptionHandleUtils.handle(e);
+                ResultBean resultBean = ExceptionHandleUtils.handle(e);
+                statusCode = resultBean.getCode();
+                resultMsg = resultBean.getMsg();
+                return resultBean;
             } finally {
                 long endTime = System.currentTimeMillis();
                 long consumeTime = endTime - beginTime;

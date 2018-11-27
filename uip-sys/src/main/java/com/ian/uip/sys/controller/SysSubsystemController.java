@@ -1,6 +1,9 @@
 package com.ian.uip.sys.controller;
 
 
+import com.ian.uip.sys.entity.SysSubsystem;
+import com.ian.uip.sys.model.BaseController;
+import com.ian.uip.sys.service.SysSubsystemService;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import org.springframework.web.bind.annotation.RestController;
@@ -14,8 +17,8 @@ import org.springframework.web.bind.annotation.RestController;
  * @since 2018-11-23
  */
 @RestController
-@RequestMapping("/sysSubsystem")
-public class SysSubsystemController {
+@RequestMapping("/sys/subsystem")
+public class SysSubsystemController extends BaseController<SysSubsystemService, SysSubsystem> {
 
 }
 

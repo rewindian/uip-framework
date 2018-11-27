@@ -2,6 +2,7 @@ package com.ian.uip.sys.entity;
 
 import java.io.Serializable;
 
+import com.baomidou.mybatisplus.activerecord.Model;
 import com.baomidou.mybatisplus.annotations.Version;
 
 import lombok.Data;
@@ -17,7 +18,7 @@ import lombok.experimental.Accessors;
  * @since 2018-11-23
  */
 @Data
-public class SysResource implements Serializable {
+public class SysResource extends Model<SysResource> {
 
     private static final long serialVersionUID = 1L;
 
@@ -57,4 +58,8 @@ public class SysResource implements Serializable {
     private String icon;
 
 
+    @Override
+    protected Serializable pkVal() {
+        return this.id;
+    }
 }

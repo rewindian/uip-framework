@@ -32,7 +32,7 @@ public class UserLoginInfo implements Serializable {
     /**
      * 部门ID
      */
-    private Long deptId;
+    private String deptId;
 
     /**
      * 部门名称

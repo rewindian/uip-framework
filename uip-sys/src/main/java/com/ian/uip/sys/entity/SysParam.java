@@ -1,6 +1,7 @@
 package com.ian.uip.sys.entity;
 
 import com.baomidou.mybatisplus.activerecord.Model;
+import com.baomidou.mybatisplus.annotations.TableField;
 import com.baomidou.mybatisplus.annotations.TableName;
 import lombok.Data;
 
@@ -26,10 +27,7 @@ public class SysParam extends Model<SysParam> {
 
     private String value;
 
-    private String valueHis;
-
-    private String updateBy;
-
+    @TableField(update = "now()")
     private Date updateDate;
 
     private String hide;
