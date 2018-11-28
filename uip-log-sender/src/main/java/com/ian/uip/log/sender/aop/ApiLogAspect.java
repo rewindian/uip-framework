@@ -27,6 +27,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -41,7 +42,8 @@ public class ApiLogAspect {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ApiLogAspect.class);
 
-    private static final String EXEC = "execution(public com.ian.uip.core.model.ResultBean *(..)) && !@annotation(com.ian.uip.core.annotation.SysLogIgnore)";
+    private static final String EXEC = "(execution(public * *..*Controller.*(..)) || execution(public * *..*Api.*(..))) &&" +
+            " execution(public com.ian.uip.core.model.ResultBean *(..)) && !@annotation(com.ian.uip.core.annotation.SysLogIgnore)";
 
     private static final String REQUEST_PARAMETERS = "requestParameters";
 
@@ -78,7 +80,7 @@ public class ApiLogAspect {
                 return pjp.proceed();
             } catch (Throwable throwable) {
                 LOGGER.error(throwable.getMessage(), throwable);
-                return null;
+                return new ResultBean(throwable);
             }
         } else {
             Object[] args = pjp.getArgs();
@@ -94,7 +96,8 @@ public class ApiLogAspect {
 //            String contentType = request.getContentType();
             for (int i = 0; i < args.length; i++) {
                 Object argValue = args[i];
-                if (argValue instanceof HttpServletRequest || argValue instanceof HttpServletResponse || argValue instanceof Exception) {
+                if (argValue instanceof HttpServletRequest || argValue instanceof HttpServletResponse || argValue instanceof Exception ||
+                        argValue instanceof MultipartFile) {
                     continue;
                 }
                 if (parameterAnnos[i].length > 0) {

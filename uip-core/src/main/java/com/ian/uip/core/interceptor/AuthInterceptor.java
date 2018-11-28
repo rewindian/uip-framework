@@ -1,14 +1,15 @@
 package com.ian.uip.core.interceptor;
 
+import com.alibaba.fastjson.JSONObject;
 import com.ian.uip.core.annotation.AuthIgnore;
 import com.ian.uip.core.config.TokenConfig;
 import com.ian.uip.core.constant.AuthConstants;
 import com.ian.uip.core.exception.AuthException;
-import com.ian.uip.core.exception.CustomException;
+import com.ian.uip.core.model.ResultBean;
 import com.ian.uip.core.redis.RedisOperator;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.web.method.HandlerMethod;
@@ -16,9 +17,12 @@ import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.io.PrintWriter;
 
 @Component
 @Slf4j
+@Order(1)
 public class AuthInterceptor extends HandlerInterceptorAdapter {
 
     @Autowired
@@ -54,7 +58,9 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
 
         //token为空
         if (StringUtils.isEmpty(token)) {
-            throw new AuthException("token不能为空");
+//            throw new AuthException("token不能为空");
+            returnJson(response, "token不能为空");
+            return false;
         } else {
             request.setAttribute(AuthConstants.PARAMETER_TOKEN, token);
         }
@@ -72,7 +78,9 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
                 }
             }
         } else {
-            throw new AuthException("token无效");
+            returnJson(response, "token无效");
+//            throw new AuthException("token无效");
+            return false;
         }
 
         return true;
@@ -81,4 +89,21 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
     private boolean isOption(HttpServletRequest httpservletrequest) {
         return "OPTIONS".equals(httpservletrequest.getMethod());
     }
+
+    private void returnJson(HttpServletResponse response, String msg) {
+        PrintWriter writer = null;
+        response.setCharacterEncoding("UTF-8");
+        response.setContentType("application/json; charset=utf-8");
+        try {
+            writer = response.getWriter();
+            ResultBean resultBean = new ResultBean(new AuthException(msg));
+            writer.print(JSONObject.toJSONString(resultBean));
+        } catch (IOException e) {
+            log.error("response error", e);
+        } finally {
+            if (writer != null)
+                writer.close();
+        }
+    }
+
 }

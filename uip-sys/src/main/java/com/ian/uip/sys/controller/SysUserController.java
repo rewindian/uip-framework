@@ -8,15 +8,18 @@ import com.ian.uip.core.validator.group.UpdateGroup;
 import com.ian.uip.sys.entity.SysUser;
 import com.ian.uip.sys.model.BaseController;
 import com.ian.uip.sys.service.SysUserService;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 
 @RestController
 @RequestMapping("/sys/user")
-@Validated
 public class SysUserController extends BaseController<SysUserService, SysUser> {
 
+    /**
+     * 新增用户
+     * @param sysUser
+     * @return
+     */
     @Override
     @PostMapping
     public ResultBean insert(@RequestBody SysUser sysUser) {
@@ -24,6 +27,11 @@ public class SysUserController extends BaseController<SysUserService, SysUser> {
         return new ResultBean(baseService.save(sysUser));
     }
 
+    /**
+     * 修改信息
+     * @param sysUser
+     * @return
+     */
     @Override
     @PutMapping
     public ResultBean update(@RequestBody SysUser sysUser) {
@@ -33,6 +41,11 @@ public class SysUserController extends BaseController<SysUserService, SysUser> {
         return new ResultBean(baseService.updateById(sysUser));
     }
 
+    /**
+     * 修改密码
+     * @param sysUser
+     * @return
+     */
     @PutMapping("/updatePassword")
     public ResultBean updatePassword(@RequestBody SysUser sysUser) {
         Assert.isBlank(sysUser.getId(), "id不能为空");

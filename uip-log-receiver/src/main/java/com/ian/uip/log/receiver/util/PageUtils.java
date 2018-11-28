@@ -1,4 +1,4 @@
-package com.ian.uip.sys.util;
+package com.ian.uip.log.receiver.util;
 
 import com.baomidou.mybatisplus.plugins.Page;
 import com.ian.uip.core.model.PageQO;
@@ -32,7 +32,7 @@ public final class PageUtils {
             List<String> list;
             if (isCamel2Underline) {
                 //驼峰转下划线
-                list = Arrays.stream(sort.split(",")).map(StrUtils::camel2Underline).collect(Collectors.toList());
+                list = Arrays.stream(sort.split(",")).map(StrUtils::camel2UnderlineLower).collect(Collectors.toList());
             } else {
                 list = Arrays.stream(sort.split(",")).collect(Collectors.toList());
             }

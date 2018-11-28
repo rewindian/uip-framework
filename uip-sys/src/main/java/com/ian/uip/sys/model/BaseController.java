@@ -51,7 +51,7 @@ public abstract class BaseController<S extends IService<T>, T> {
         return new ResultBean(baseService.selectPage(PageUtils.pageQOToPage(pageQO), new EntityWrapper<>(t)));
     }
 
-    @GetMapping
+    @GetMapping("/getById")
     public ResultBean getById(@RequestParam("id") String id) {
         return new ResultBean(baseService.selectOne(new EntityWrapper<T>().eq("id", id)));
     }

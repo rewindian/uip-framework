@@ -43,6 +43,17 @@ public final class StrUtils {
      * @return 转换后的字符串
      */
     public static String camel2Underline(String line) {
+        return camel2Underline(line, true);
+    }
+
+    public static String camel2UnderlineLower(String line) {
+        return camel2Underline(line, false);
+    }
+
+    public static String camel2Underline(String line, Boolean isUpperCase) {
+        if (null == isUpperCase) {
+            isUpperCase = true;
+        }
         if (line == null || "".equals(line)) {
             return "";
         }
@@ -52,7 +63,7 @@ public final class StrUtils {
         Matcher matcher = pattern.matcher(line);
         while (matcher.find()) {
             String word = matcher.group();
-            sb.append(word.toUpperCase());
+            sb.append(isUpperCase ? word.toUpperCase() : word.toLowerCase());
             sb.append(matcher.end() == line.length() ? "" : "_");
         }
         return sb.toString();
