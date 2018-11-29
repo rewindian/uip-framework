@@ -14,6 +14,7 @@ import com.ian.uip.core.util.ExcelUtils;
 import com.ian.uip.log.receiver.model.SysLogEO;
 import com.ian.uip.log.receiver.service.SysLogService;
 import com.ian.uip.log.receiver.util.PageUtils;
+import io.swagger.annotations.*;
 import lombok.Cleanup;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.poi.util.IOUtils;
@@ -22,6 +23,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import springfox.documentation.annotations.ApiIgnore;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -41,13 +43,15 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/sys/log")
 @Slf4j
+@Api(tags = "系统日志", description = "系统日志操作接口")
 public class SysLogController {
 
     @Autowired
     private SysLogService sysLogService;
 
     @GetMapping("/excel/export")
-    public void excelExport(HttpServletResponse response) {
+    @ApiOperation(value = "导出日志表", notes = "导出系统日志到EXCEL表")
+    public void excelExport(@ApiIgnore HttpServletResponse response) {
         try {
             List<SysLog> list = sysLogService.selectList(new EntityWrapper<SysLog>().orderBy("create_time"));
             List<SysLogEO> eoList = list.stream().map(sysLog -> {
@@ -62,6 +66,7 @@ public class SysLogController {
     }
 
     @GetMapping
+    @ApiOperation(value = "分页查询", notes = "分页查询系统日志")
     public ResultBean listByPage(SysLog sysLog, PageQO pageQO) {
         if (StringUtils.isEmpty(pageQO.getSort())) {
             pageQO.setSort("createTime");

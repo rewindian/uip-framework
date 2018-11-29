@@ -15,6 +15,9 @@ import com.ian.uip.core.util.TokenUtils;
 import com.ian.uip.sys.entity.SysUser;
 import com.ian.uip.sys.service.SysUserService;
 import com.ian.uip.sys.util.PasswordUtil;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -28,6 +31,7 @@ import java.util.Map;
  */
 @RestController
 @Slf4j
+@Api(tags = "登录", description = "登录相关接口")
 public class SysLoginController {
 
     @Autowired
@@ -44,6 +48,8 @@ public class SysLoginController {
      */
     @RequestMapping(value = "/sys/login", method = RequestMethod.POST)
     @AuthIgnore
+    @ApiOperation(value = "登录", notes = "登录")
+    @ApiImplicitParam(name = "sysUser", value = "SysUser实体类，登录需要传username和password参数", required = true, dataType = "SysUser")
     public ResultBean login(@RequestBody SysUser sysUser) {
 
         //用户信息
@@ -80,6 +86,7 @@ public class SysLoginController {
      * @return
      */
     @PostMapping("/sys/logout")
+    @ApiOperation(value = "退出登录", notes = "退出登录")
     public ResultBean logout(@UserLogin UserLoginInfo userLoginInfo) {
         String token = userLoginInfo.getToken();
         redisOperator.deleteData(AuthConstants.TOKEN_CACHE_PREFIX + token);

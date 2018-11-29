@@ -33,7 +33,7 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        if (isOption(request)) {
+        if (isOption(request) || isWhiteList(request)) {
             return true;
         }
 
@@ -86,8 +86,13 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
         return true;
     }
 
-    private boolean isOption(HttpServletRequest httpservletrequest) {
-        return "OPTIONS".equals(httpservletrequest.getMethod());
+    private boolean isOption(HttpServletRequest request) {
+        return "OPTIONS".equals(request.getMethod());
+    }
+
+    private boolean isWhiteList(HttpServletRequest request) {
+        String url = request.getRequestURL().toString();
+        return url.endsWith("/error") || url.contains("swagger");
     }
 
     private void returnJson(HttpServletResponse response, String msg) {
