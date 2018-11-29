@@ -57,17 +57,17 @@ public class GeneratorServiceEntity {
     /**
      * WEB层超类
      */
-    private static final String SUPER_CONTROLLER = "com.kindo.uas.common.model.BaseController";
+    private static final String SUPER_CONTROLLER = "com.ian.uip.sys.model.BaseController";
 
     /**
      * 实体类超类
      */
-    private static final String SUPER_ENTITY = "com.kindo.uas.common.model.BaseQuery";
+    private static final String SUPER_ENTITY = "com.baomidou.mybatisplus.activerecord.Model";
 
     /**
      * 需要生成的表名称
      */
-    private static final String[] TABLE_NAMES = {"sys_subsystem", "sys_resource"};
+    private static final String[] TABLE_NAMES = {"sys_dict", "sys_dict_detail"};
 
     @Test
     public void generateCode() {
@@ -85,7 +85,7 @@ public class GeneratorServiceEntity {
                 .setDriverName(DRIVER_NAME);
         StrategyConfig strategyConfig = new StrategyConfig();
         strategyConfig
-//                .setSuperControllerClass(SUPER_CONTROLLER)
+                .setSuperControllerClass(SUPER_CONTROLLER)
                 .setRestControllerStyle(true)
 //                .setSuperEntityClass(SUPER_ENTITY)
                 .setCapitalMode(true)
@@ -94,7 +94,7 @@ public class GeneratorServiceEntity {
                 .setNaming(NamingStrategy.underline_to_camel)
 //                .setTablePrefix("q_")   //要移除的前缀
                 .setInclude(tableNames);//修改替换成你需要的表名，多个表名传数组
-        config.setActiveRecord(false)
+        config.setActiveRecord(true)
                 .setAuthor(AUTHOR)
                 .setOutputDir(OUTPUT_DIR)
                 .setFileOverride(true)

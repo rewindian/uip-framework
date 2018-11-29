@@ -10,6 +10,8 @@ import org.springframework.stereotype.Controller;
 #end
 #if(${superControllerClassPackage})
 import ${superControllerClassPackage};
+import ${package.Entity}.${entity};
+import ${package.Service}.${table.serviceName};
 #end
 
 /**
@@ -27,7 +29,7 @@ import ${superControllerClassPackage};
 #end
 @RequestMapping("#if(${package.ModuleName})/${package.ModuleName}#end/#if(${controllerMappingHyphenStyle})${controllerMappingHyphen}#else${table.entityPath}#end")
 #if(${superControllerClass})
-public class ${table.controllerName} extends ${superControllerClass} {
+public class ${table.controllerName} extends ${superControllerClass}<${table.serviceName}, ${entity}> {
 #else
 public class ${table.controllerName} {
 #end

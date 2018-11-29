@@ -27,30 +27,6 @@ import java.util.Map;
 @Configuration
 public class CacheConfig extends CachingConfigurerSupport {
 
-    /**
-     * 自定义key. 这个可以不用
-     * 此方法将会根据类名+方法名+所有参数的值生成唯一的一个key,即使@Cacheable中的value属性一样，key也会不一样。
-     */
-   /* @Override
-    public KeyGenerator keyGenerator() {
-       System.out.println("RedisCacheConfig.keyGenerator()");
-       returnnew KeyGenerator() {
-           @Override
-           public Object generate(Object o, Method method, Object... objects) {
-              // This will generate a unique key of the class name, the method name
-              //and all method parameters appended.
-              StringBuilder sb = new StringBuilder();
-              sb.append(o.getClass().getName());
-              sb.append(method.getName());
-              for (Object obj : objects) {
-                  sb.append(obj.toString());
-              }
-              System.out.println("keyGenerator=" + sb.toString());
-              returnsb.toString();
-           }
-       };
-    }
-    */
     @Bean
     CacheManager cacheManager(RedisConnectionFactory connectionFactory) {
 

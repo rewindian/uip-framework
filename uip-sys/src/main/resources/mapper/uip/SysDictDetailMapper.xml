@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ian.uip.sys.dao.SysDictDetailMapper">
+    <select id="listByCatalog" resultType="com.ian.uip.sys.model.LabelValue">
+        SELECT dict_name AS label, dict_value AS `value` FROM sys_dict_detail
+        WHERE dict_catalog = #{catalog}
+        ORDER BY dict_order
+    </select>
+</mapper>
