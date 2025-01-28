@@ -15,7 +15,7 @@
 		<spring.version>5.2.3.RELEASE</spring.version>
 		<hibernate.version>5.4.0.Final</hibernate.version>
 		<slf4j.version>1.7.10</slf4j.version>
-		<cxf.rt>3.2.7</cxf.rt>
+		<cxf.rt>3.5.10</cxf.rt>
 		<mina.version>2.0.9</mina.version>
 		<aspectj.version>1.8.9</aspectj.version>
 		<cglib.version>2.2</cglib.version>
