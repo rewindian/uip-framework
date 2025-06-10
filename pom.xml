@@ -32,7 +32,7 @@
 		<xmemcached.version>1.4.2</xmemcached.version>
 
 		<xbean-spring.version>4.1</xbean-spring.version>
-		<activemq.version>5.15.8</activemq.version>
+		<activemq.version>5.16.4</activemq.version>
 		<tsm.version>1.0.0</tsm.version>
 
 		<!-- Plugin的属性定�??? -->
